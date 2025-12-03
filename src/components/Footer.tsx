@@ -6,18 +6,30 @@ const Footer = () => {
     <>
       <section className="py-12 bg-white border-y">
         <div className="container mx-auto px-4">
-          <div className="flex flex-wrap justify-center items-center gap-6">
+          <div className="flex flex-wrap justify-center items-center gap-4">
             <a 
-              href="https://mosreg.ru/gubernator" 
+              href="https://mosreg.ru/" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="transition-transform hover:scale-105"
+              className="px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-all font-semibold"
             >
-              <img 
-                src="https://cdn.poehali.dev/files/44a9527b-037f-49ad-ba24-07bd1843e76d.png" 
-                alt="Команда губернатора | МОСОБЛСПОРТ | Противодействие коррупции"
-                className="h-16 w-auto"
-              />
+              Команда губернатора
+            </a>
+            <a 
+              href="https://mst.mosreg.ru/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-all font-semibold"
+            >
+              Мособлспорт
+            </a>
+            <a 
+              href="https://мвд.рф/request_main" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-all font-semibold"
+            >
+              Противодействие коррупции
             </a>
           </div>
         </div>
