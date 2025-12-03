@@ -1,8 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Icon from "@/components/ui/icon";
+import { useState } from "react";
 
 const Index = () => {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    position: "",
+    phone: "",
+    section: ""
+  });
+
   const sports = [
     { name: "Хоккей", icon: "Disc3" },
     { name: "Фигурное катание", icon: "Sparkles" },
@@ -26,9 +37,33 @@ const Index = () => {
     "Участники Олимпийских игр",
   ];
 
+  const galleryImages = [
+    { url: "https://cdn.poehali.dev/projects/fc24805a-ff2b-48b2-8b63-b748ef1d47c0/files/8151c033-3b59-4cb3-b015-9628078c31e3.jpg", title: "Тренировка по хоккею" },
+    { url: "https://cdn.poehali.dev/projects/fc24805a-ff2b-48b2-8b63-b748ef1d47c0/files/64b3233b-8417-4930-9e8d-7ac1bf67cdbe.jpg", title: "Соревнования по фигурному катанию" },
+    { url: "https://cdn.poehali.dev/projects/fc24805a-ff2b-48b2-8b63-b748ef1d47c0/files/d3310136-8bcb-4785-8e05-674517eda301.jpg", title: "Художественная гимнастика" },
+    { url: "https://cdn.poehali.dev/projects/fc24805a-ff2b-48b2-8b63-b748ef1d47c0/files/6599221c-4842-474f-b070-4d27bc570d2d.jpg", title: "Волейбол" },
+  ];
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+  };
+
   return (
     <div className="min-h-screen bg-white">
-      <nav className="fixed top-0 w-full bg-primary text-primary-foreground z-50 shadow-md">
+      <div className="bg-secondary/50 border-b border-border">
+        <div className="container mx-auto px-4 py-2 flex justify-end gap-4 text-sm">
+          <a href="#" className="hover:text-accent transition-colors flex items-center gap-1">
+            <Icon name="Eye" size={16} />
+            Версия для слабовидящих
+          </a>
+          <a href="#" className="hover:text-accent transition-colors">
+            Сведения об образовательной организации
+          </a>
+        </div>
+      </div>
+
+      <nav className="sticky top-0 w-full bg-primary text-primary-foreground z-50 shadow-md">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Icon name="Trophy" size={32} className="text-accent" />
@@ -38,13 +73,13 @@ const Index = () => {
             <a href="#about" className="hover:text-accent transition-colors">О школе</a>
             <a href="#sports" className="hover:text-accent transition-colors">Отделения</a>
             <a href="#coaches" className="hover:text-accent transition-colors">Тренеры</a>
-            <a href="#schedule" className="hover:text-accent transition-colors">Расписание</a>
+            <a href="#register" className="hover:text-accent transition-colors">Записаться</a>
             <a href="#contacts" className="hover:text-accent transition-colors">Контакты</a>
           </div>
         </div>
       </nav>
 
-      <section className="relative h-[600px] flex items-center justify-center text-white mt-16">
+      <section className="relative h-[600px] flex items-center justify-center text-white">
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url('https://cdn.poehali.dev/projects/fc24805a-ff2b-48b2-8b63-b748ef1d47c0/files/51cb9a3f-6466-46cd-9ef2-9dae15ac58e6.jpg')` }}
@@ -69,17 +104,16 @@ const Index = () => {
           <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-6">
             {sports.map((sport, idx) => (
               <Card key={idx} className="hover:shadow-xl transition-all hover:-translate-y-1">
-                <CardContent className="p-6 text-center">
+                <CardContent className="p-6 text-center h-full flex flex-col items-center justify-center">
                   <div className="bg-accent/10 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
                     <Icon name={sport.icon} size={40} className="text-accent" />
                   </div>
-                  <h3 className="font-semibold text-sm">{sport.name}</h3>
+                  <h3 className="font-semibold text-sm leading-tight">{sport.name}</h3>
                 </CardContent>
               </Card>
             ))}
           </div>
           <p className="text-center text-muted-foreground mt-12 max-w-3xl mx-auto text-lg leading-relaxed">
-            СШОР им. В.М. Боброва — ведущее спортивное учреждение Московской области. 
             Мы готовим спортсменов высокого класса по 6 направлениям с 1978 года.
           </p>
         </div>
@@ -107,41 +141,70 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="schedule" className="py-20 bg-secondary/30">
+      <section id="register" className="py-20 bg-secondary/30">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-primary">
-            Расписание и массовые катания
+            Записаться в секцию
           </h2>
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <Card className="hover:shadow-xl transition-all">
-              <CardContent className="p-8">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="bg-accent/10 rounded-full p-4">
-                    <Icon name="Calendar" size={32} className="text-accent" />
-                  </div>
-                  <h3 className="font-bold text-2xl">Тренировки</h3>
+          <Card className="max-w-2xl mx-auto">
+            <CardContent className="p-8">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="space-y-2">
+                  <Label htmlFor="fullName">ФИО</Label>
+                  <Input
+                    id="fullName"
+                    placeholder="Иванов Иван Иванович"
+                    value={formData.fullName}
+                    onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                    required
+                  />
                 </div>
-                <p className="text-muted-foreground mb-4">
-                  Занятия проходят ежедневно по расписанию секций
-                </p>
-                <Button variant="outline" className="w-full">Смотреть расписание</Button>
-              </CardContent>
-            </Card>
-            <Card className="hover:shadow-xl transition-all">
-              <CardContent className="p-8">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="bg-accent/10 rounded-full p-4">
-                    <Icon name="Users" size={32} className="text-accent" />
-                  </div>
-                  <h3 className="font-bold text-2xl">Массовые катания</h3>
+
+                <div className="space-y-2">
+                  <Label htmlFor="position">Должность</Label>
+                  <Input
+                    id="position"
+                    placeholder="Администратор ФОК"
+                    value={formData.position}
+                    onChange={(e) => setFormData({ ...formData, position: e.target.value })}
+                    required
+                  />
                 </div>
-                <p className="text-muted-foreground mb-4">
-                  Открытые катания для всех желающих по выходным
-                </p>
-                <Button variant="outline" className="w-full">Узнать подробнее</Button>
-              </CardContent>
-            </Card>
-          </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="phone">Телефон</Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    placeholder="+7 495 644 12 13"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="section">Выбор секции</Label>
+                  <Select value={formData.section} onValueChange={(value) => setFormData({ ...formData, section: value })}>
+                    <SelectTrigger id="section">
+                      <SelectValue placeholder="Выберите секцию" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {sports.map((sport, idx) => (
+                        <SelectItem key={idx} value={sport.name}>
+                          {sport.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <Button type="submit" className="w-full bg-accent hover:bg-accent/90" size="lg">
+                  Отправить заявку
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
         </div>
       </section>
 
@@ -173,12 +236,36 @@ const Index = () => {
       <section className="py-20 bg-secondary/30">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-primary">
+            Галерея
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            {galleryImages.map((image, idx) => (
+              <Card key={idx} className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1">
+                <CardContent className="p-0">
+                  <img 
+                    src={image.url}
+                    alt={image.title}
+                    className="w-full h-64 object-cover"
+                  />
+                  <div className="p-4">
+                    <p className="font-semibold text-sm">{image.title}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-primary">
             Интернат "Берёзка"
           </h2>
           <div className="grid md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
             <div>
               <img 
-                src="https://cdn.poehali.dev/projects/fc24805a-ff2b-48b2-8b63-b748ef1d47c0/files/6d16f32d-b5b5-4e9d-8bd5-f4fa22de2c67.jpg"
+                src="https://cdn.poehali.dev/files/06f8446e-0297-4e39-b288-aff49f226acc.png"
                 alt="Интернат Берёзка"
                 className="rounded-2xl shadow-2xl"
               />
@@ -211,10 +298,10 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="contacts" className="py-20">
+      <section id="contacts" className="py-20 bg-secondary/30">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-primary">Контакты</h2>
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-12">
             <Card>
               <CardContent className="p-8 text-center">
                 <div className="bg-accent/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
@@ -222,9 +309,9 @@ const Index = () => {
                 </div>
                 <h3 className="font-bold text-lg mb-2">Адрес</h3>
                 <p className="text-muted-foreground">
-                  Московская область,<br />
-                  г. Ступино,<br />
-                  ул. Спортивная, 1
+                  142803, Московская область,<br />
+                  город Ступино,<br />
+                  пр-кт Победы, д.8 к.1
                 </p>
               </CardContent>
             </Card>
@@ -253,6 +340,42 @@ const Index = () => {
               </CardContent>
             </Card>
           </div>
+
+          <div className="max-w-5xl mx-auto">
+            <Card>
+              <CardContent className="p-0">
+                <div className="w-full h-[400px]">
+                  <iframe
+                    src="https://yandex.ru/map-widget/v1/?ll=38.074600%2C54.899900&z=16&l=map&pt=38.074600,54.899900,pm2rdm"
+                    width="100%"
+                    height="100%"
+                    frameBorder="0"
+                    className="rounded-lg"
+                    title="Карта местоположения СШОР"
+                  ></iframe>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-12 bg-white border-y">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-wrap justify-center items-center gap-6">
+            <a 
+              href="https://mosreg.ru/gubernator" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="transition-transform hover:scale-105"
+            >
+              <img 
+                src="https://cdn.poehali.dev/files/44a9527b-037f-49ad-ba24-07bd1843e76d.png" 
+                alt="Команда губернатора | МОСОБЛСПОРТ | Противодействие коррупции"
+                className="h-16 w-auto"
+              />
+            </a>
+          </div>
         </div>
       </section>
 
@@ -273,14 +396,14 @@ const Index = () => {
               <div className="space-y-2 text-sm">
                 <a href="#about" className="block hover:text-accent transition-colors">О школе</a>
                 <a href="#coaches" className="block hover:text-accent transition-colors">Тренеры</a>
-                <a href="#schedule" className="block hover:text-accent transition-colors">Расписание</a>
+                <a href="#register" className="block hover:text-accent transition-colors">Записаться</a>
                 <a href="#contacts" className="block hover:text-accent transition-colors">Контакты</a>
               </div>
             </div>
             <div>
               <h4 className="font-bold mb-4">Контакты</h4>
               <div className="space-y-2 text-sm text-primary-foreground/80">
-                <p>г. Ступино, ул. Спортивная, 1</p>
+                <p>142803, Московская область, г. Ступино, пр-кт Победы, д.8 к.1</p>
                 <p>+7 (496) 642-12-34</p>
                 <p>info@sshor-bobrov.ru</p>
               </div>
